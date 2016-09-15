@@ -1,4 +1,4 @@
-# GeoJSONObject
+# Unity-GeoJSONObject
 A simple [RFC 7946 GeoJSON](https://tools.ietf.org/html/rfc7946) parser in C# for Unity 3D. Utilizes the [JSONObject](https://github.com/mtschoen/JSONObject) library by Matt Schoen.
 
 ## Prerequisite

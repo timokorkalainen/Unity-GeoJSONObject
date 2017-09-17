@@ -10,8 +10,18 @@ namespace GeoJSON {
 		public GeometryObject(JSONObject jsonObject) : base(jsonObject) {
 		}
 
+		/*
+		 * Returns all PositionObjects in the Geometry as a single list
+		 */
 		virtual public List<PositionObject> AllPositions() {
 			return new List<PositionObject>();
+		}
+
+		/*
+		 * Returns the number of all PositionObjects in the Geometry
+		 */
+		virtual public int PositionCount() {
+			return 0;
 		}
 	}
 
@@ -28,6 +38,10 @@ namespace GeoJSON {
 			list.Add (coordinates);
 			return list;
 		}
+
+		override public int PositionCount() {
+			return 1;
+		}
 	}
 	[System.Serializable]
 	public class ArrayGeometryObject : GeometryObject {
@@ -42,6 +56,10 @@ namespace GeoJSON {
 
 		override public List<PositionObject> AllPositions() {
 			return coordinates;
+		}
+
+		override public int PositionCount() {
+			return coordinates.Count;
 		}
 	}
 	[System.Serializable]
@@ -68,6 +86,16 @@ namespace GeoJSON {
 				}
 			}
 			return list;
+		}
+
+		override public int PositionCount() {
+			int totalPositions = 0;
+
+			foreach (List<PositionObject> l in coordinates) {
+				totalPositions += coordinates.Count;
+			}
+
+			return totalPositions;
 		}
 	}
 

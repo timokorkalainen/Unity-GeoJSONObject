@@ -13,5 +13,14 @@ namespace GeoJSON {
 			longitude = jsonObject.list [0].f;
 			latitude = jsonObject.list [1].f;
 		}
+
+		public JSONObject Serialize() {
+
+			JSONObject jsonObject = new JSONObject (JSONObject.Type.ARRAY);
+			jsonObject.Add (longitude);
+			jsonObject.Add (latitude);
+
+			return jsonObject;
+		}
 	}
 }

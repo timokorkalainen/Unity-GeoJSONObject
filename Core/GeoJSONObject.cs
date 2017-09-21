@@ -15,7 +15,7 @@ namespace GeoJSON {
 		public GeoJSONObject() {
 		}
 
-		static public FeatureCollection ParseAsCollection(string encodedString) {
+		static public FeatureCollection Deserialize(string encodedString) {
 			FeatureCollection collection;
 
 			JSONObject jsonObject = new JSONObject (encodedString);
@@ -28,5 +28,17 @@ namespace GeoJSON {
 
 			return collection;
 		}
+
+		virtual public JSONObject Serialize () {
+
+			JSONObject rootObject = new JSONObject (JSONObject.Type.OBJECT);
+			rootObject.AddField ("type", type);
+
+			SerializeContent (rootObject);
+
+			return rootObject;
+		}
+
+		protected virtual void SerializeContent(JSONObject rootObject) {}
 	}
 }

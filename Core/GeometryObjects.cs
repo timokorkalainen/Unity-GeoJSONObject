@@ -23,6 +23,13 @@ namespace GeoJSON {
 		virtual public int PositionCount() {
 			return 0;
 		}
+
+		override protected void SerializeContent(JSONObject rootObject) {
+			JSONObject coordinateObject = SerializeGeometry ();
+			rootObject.AddField ("coordinates", coordinateObject);
+		}
+
+		virtual protected JSONObject SerializeGeometry() { return null; }
 	}
 
 	[System.Serializable]
@@ -42,6 +49,10 @@ namespace GeoJSON {
 		override public int PositionCount() {
 			return 1;
 		}
+
+		override protected JSONObject SerializeGeometry() {
+			return coordinates.Serialize();
+		}
 	}
 	[System.Serializable]
 	public class ArrayGeometryObject : GeometryObject {
@@ -60,6 +71,16 @@ namespace GeoJSON {
 
 		override public int PositionCount() {
 			return coordinates.Count;
+		}
+
+		override protected JSONObject SerializeGeometry() {
+
+			JSONObject coordinateArray = new JSONObject (JSONObject.Type.ARRAY);
+			foreach (PositionObject position in coordinates) {
+				coordinateArray.Add (position.Serialize());
+			}
+
+			return coordinateArray;
 		}
 	}
 	[System.Serializable]
@@ -96,6 +117,22 @@ namespace GeoJSON {
 			}
 
 			return totalPositions;
+		}
+
+
+		override protected JSONObject SerializeGeometry() {
+
+			JSONObject coordinateArrayArray = new JSONObject (JSONObject.Type.ARRAY);
+
+			foreach (List<PositionObject> l in coordinates) {
+				JSONObject coordinateArray = new JSONObject (JSONObject.Type.ARRAY);
+				foreach (PositionObject pos in l) {
+					coordinateArray.Add (pos.Serialize());
+				}
+				coordinateArrayArray.Add (coordinateArray);
+			}
+
+			return coordinateArrayArray;
 		}
 	}
 

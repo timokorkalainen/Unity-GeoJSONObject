@@ -34,5 +34,14 @@ namespace GeoJSON {
 			}
 		}
 
+		override protected void SerializeContent(JSONObject rootObject) {
+
+			JSONObject jsonFeatures = new JSONObject(JSONObject.Type.ARRAY);
+			foreach(FeatureObject feature in features) {
+				jsonFeatures.Add (feature.Serialize ());
+			}
+			rootObject.AddField ("features", jsonFeatures);
+		}
+
 	}
 }

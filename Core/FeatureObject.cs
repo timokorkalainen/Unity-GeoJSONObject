@@ -55,5 +55,23 @@ namespace GeoJSON {
 			return null;
 		}
 
+		public JSONObject Serialize() {
+			JSONObject rootObject = new JSONObject(JSONObject.Type.OBJECT);
+
+			rootObject.AddField("type", type);
+
+			//Geometry
+			JSONObject geometryObject = geometry.Serialize ();
+			rootObject.AddField ("geometry", geometryObject);
+
+			//Properties
+			JSONObject jsonProperties = new JSONObject(JSONObject.Type.OBJECT);
+			foreach (KeyValuePair<string,string> property in properties) {
+				jsonProperties.AddField (property.Key, property.Value);
+			}
+			rootObject.AddField("properties", jsonProperties);
+
+			return rootObject;
+		}
 	}
 }

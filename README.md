@@ -8,6 +8,10 @@ Import the JSONObject library from https://github.com/mtschoen/JSONObject
 ```C#
 //Read a TextAsset and parse as a FeatureCollection
 FeatureCollection collection = GeoJSON.GeoJSONObject.ParseAsCollection (encodedGeoJSON.text);
+
+//Serialize collection back to text
+string json = collection.Serialize().ToString();
+
 ```
 
 ## Getting started
@@ -15,5 +19,4 @@ FeatureCollection collection = GeoJSON.GeoJSONObject.ParseAsCollection (encodedG
 2. See the example scene
 
 ## Missing features
-* Encoding/Serialization
 * Bounding Box support

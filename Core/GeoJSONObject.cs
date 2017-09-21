@@ -15,6 +15,7 @@ namespace GeoJSON {
 		public GeoJSONObject() {
 		}
 
+		//Will always return a FeatureCollection...
 		static public FeatureCollection Deserialize(string encodedString) {
 			FeatureCollection collection;
 

@@ -38,7 +38,10 @@ namespace GeoJSON {
 			for(int i = 0; i < jsonObject.list.Count; i++){
 				string key = (string)jsonObject.keys[i];
 				JSONObject value = (JSONObject)jsonObject.list[i];
-				properties.Add (key, value.str);
+				if(value.IsString)
+					properties.Add (key, value.str);
+				if(value.IsNumber)
+					properties.Add (key, value.n.ToString());
 			}			
 		}
 

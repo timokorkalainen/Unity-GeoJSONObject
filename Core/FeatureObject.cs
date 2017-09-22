@@ -27,6 +27,13 @@ namespace GeoJSON {
 			parseProperties (jsonObject ["properties"]);
 		}
 
+		public FeatureObject(GeometryObject featureGeometry) {
+			type = "Feature";
+			geometry = featureGeometry;
+
+			properties = new Dictionary<string, string> ();
+		}
+
 		protected void parseProperties(JSONObject jsonObject) {
 			for(int i = 0; i < jsonObject.list.Count; i++){
 				string key = (string)jsonObject.keys[i];

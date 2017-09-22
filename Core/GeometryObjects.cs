@@ -7,6 +7,9 @@ namespace GeoJSON {
 	[System.Serializable]
 	public class GeometryObject : GeoJSONObject {
 
+		public GeometryObject() : base() {
+		}
+
 		public GeometryObject(JSONObject jsonObject) : base(jsonObject) {
 		}
 
@@ -35,6 +38,16 @@ namespace GeoJSON {
 	[System.Serializable]
 	public class SingleGeometryObject : GeometryObject {
 		public PositionObject coordinates;
+
+		public SingleGeometryObject() : base() {
+			type = "Point";
+			coordinates = new PositionObject ();
+		}
+
+		public SingleGeometryObject(float longitude, float latitude) : base() {
+			type = "Point";
+			coordinates = new PositionObject (longitude, latitude);
+		}
 
 		public SingleGeometryObject(JSONObject jsonObject) : base(jsonObject) {
 			coordinates = new PositionObject (jsonObject["coordinates"]);
@@ -139,6 +152,8 @@ namespace GeoJSON {
 	[System.Serializable]
 	public class PointGeometryObject : SingleGeometryObject {
 		public PointGeometryObject(JSONObject jsonObject) : base(jsonObject) {
+		}
+		public PointGeometryObject(float longitude, float latitude) : base(longitude, latitude) {
 		}
 	}
 	[System.Serializable]

@@ -8,11 +8,12 @@ namespace GeoJSON {
 
 		public string type;
 
-		public GeoJSONObject(JSONObject jsonObject) {
-			type = jsonObject ["type"].str;
+		public GeoJSONObject() {
 		}
 
-		public GeoJSONObject() {
+		public GeoJSONObject(JSONObject jsonObject) {
+			if(jsonObject != null)
+				type = jsonObject ["type"].str;
 		}
 
 		//Will always return a FeatureCollection...

@@ -9,6 +9,14 @@ namespace GeoJSON {
 		public float latitude;
 		public float longitude;
 
+		public PositionObject() {
+		}
+
+		public PositionObject(float pointLongitude, float pointLatitude) {
+			this.longitude = pointLongitude;
+			this.latitude = pointLatitude;
+		}
+
 		public PositionObject(JSONObject jsonObject) {
 			longitude = jsonObject.list [0].f;
 			latitude = jsonObject.list [1].f;
@@ -21,6 +29,10 @@ namespace GeoJSON {
 			jsonObject.Add (latitude);
 
 			return jsonObject;
+		}
+
+		override public string ToString() {
+			return longitude + "," + latitude;
 		}
 	}
 }

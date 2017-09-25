@@ -34,5 +34,15 @@ namespace GeoJSON {
 		override public string ToString() {
 			return longitude + "," + latitude;
 		}
+
+		public float[] ToArray() {
+
+			float[] array = new float[2];
+
+			array [0] = longitude;
+			array [1] = latitude;
+
+			return array;
+		}
 	}
 }

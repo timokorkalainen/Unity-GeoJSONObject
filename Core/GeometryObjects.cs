@@ -17,7 +17,14 @@ namespace GeoJSON {
 		 * Returns all PositionObjects in the Geometry as a single list
 		 */
 		virtual public List<PositionObject> AllPositions() {
-			return new List<PositionObject>();
+			return null;
+		}
+
+		/*
+		 * Returns first PositionObject in the Geometry
+		 */
+		virtual public PositionObject FirstPosition() {
+			return null;
 		}
 
 		/*
@@ -59,6 +66,10 @@ namespace GeoJSON {
 			return list;
 		}
 
+		override public PositionObject FirstPosition() {
+			return coordinates;
+		}
+
 		override public int PositionCount() {
 			return 1;
 		}
@@ -80,6 +91,13 @@ namespace GeoJSON {
 
 		override public List<PositionObject> AllPositions() {
 			return coordinates;
+		}
+
+		override public PositionObject FirstPosition() {
+			if(coordinates.Count > 0)
+				return coordinates[0];
+
+			return null;
 		}
 
 		override public int PositionCount() {
@@ -120,6 +138,13 @@ namespace GeoJSON {
 				}
 			}
 			return list;
+		}
+
+		override public PositionObject FirstPosition() {
+			if(coordinates.Count > 0 && coordinates[0].Count > 0)
+				return coordinates[0][0];
+
+			return null;
 		}
 
 		override public int PositionCount() {

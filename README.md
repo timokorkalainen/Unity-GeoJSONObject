@@ -15,6 +15,7 @@ string json = collection.Serialize().ToString();
 ```
 
 ## Getting started
+(0. Import the JSONObject library from https://github.com/mtschoen/JSONObject into Unity)
 1. Import directory into Unity
 2. See the example scene
 

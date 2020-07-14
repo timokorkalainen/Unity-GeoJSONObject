@@ -175,6 +175,101 @@ namespace GeoJSON {
 	}
 
 	[System.Serializable]
+    public class ArrayArrayArrayGeometryObject : GeometryObject
+    {
+        public List<List<List<PositionObject>>> coordinates;
+
+        public ArrayArrayArrayGeometryObject(JSONObject jsonObject) : base(jsonObject)
+        {
+            coordinates = new List<List<List<PositionObject>>>();
+            // For each Multipolygon
+            foreach (JSONObject l in jsonObject["coordinates"].list)
+            {
+                List<List<PositionObject>> multipolygon = new List<List<PositionObject>>();
+                coordinates.Add(multipolygon);
+                // For each Polygon
+                foreach (JSONObject l2 in l.list)
+                {
+                    List<PositionObject> polygon = new List<PositionObject>();
+                    multipolygon.Add(polygon);
+
+                    // For each coordinate (vertex position)
+                    foreach (JSONObject l3 in l2.list)
+                    {
+                        polygon.Add(new PositionObject(l3));
+                    }
+                }
+            }
+        }
+
+        override public List<PositionObject> AllPositions()
+        {
+            List<PositionObject> list = new List<PositionObject>();
+            // For each Multipolygon
+            foreach (List<List<PositionObject>> l in coordinates)
+            {
+                // For each Polygon
+                foreach (List<PositionObject> l2 in l)
+                {
+                    // For each coordinate (vertex position)
+                    foreach (PositionObject pos in l2)
+                    {
+                        list.Add(pos);
+                    }
+                }
+            }
+            return list;
+        }
+
+        override public PositionObject FirstPosition()
+        {
+            if (coordinates.Count > 0 && coordinates[0].Count > 0 && coordinates[0][0].Count > 0)
+                return coordinates[0][0][0];
+
+            return null;
+        }
+
+        override public int PositionCount()
+        {
+            int totalPositions = 0;
+
+            // For each Multipolygon
+            foreach (List<List<PositionObject>> l in coordinates)
+            {
+                // For each Polygon
+                foreach (List<PositionObject> l2 in l)
+                {
+                    totalPositions += l2.Count;
+                }
+            }
+
+            return totalPositions;
+        }
+
+
+        override protected JSONObject SerializeGeometry()
+        {
+            JSONObject coordinateArrayArrayArray = new JSONObject(JSONObject.Type.ARRAY);
+            foreach (List<List<PositionObject>> l in coordinates)
+            {
+                JSONObject coordinateArrayArray = new JSONObject(JSONObject.Type.ARRAY);
+                foreach (List<PositionObject> l2 in l)
+                {
+                    JSONObject coordinateArray = new JSONObject(JSONObject.Type.ARRAY);
+                    foreach (PositionObject pos in l2)
+                    {
+                        coordinateArray.Add(pos.Serialize());
+                    }
+                    coordinateArrayArray.Add(coordinateArray);
+                }
+				coordinateArrayArrayArray.Add(coordinateArrayArray);
+            }
+
+            return coordinateArrayArrayArray;
+        }
+    }
+
+	[System.Serializable]
 	public class PointGeometryObject : SingleGeometryObject {
 		public PointGeometryObject(JSONObject jsonObject) : base(jsonObject) {
 		}
@@ -204,7 +299,7 @@ namespace GeoJSON {
 		}
 	}
 	[System.Serializable]
-	public class MultiPolygonGeometryObject : ArrayArrayGeometryObject {
+	public class MultiPolygonGeometryObject : ArrayArrayArrayGeometryObject {
 		public MultiPolygonGeometryObject(JSONObject jsonObject) : base(jsonObject) {
 		}
 	}
